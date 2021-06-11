@@ -3,8 +3,8 @@
  * @Author: Kotori Y
  * @Date: 2021-06-11 09:39:25
  * @LastEditors: Kotori Y
- * @LastEditTime: 2021-06-11 17:15:03
- * @FilePath: \relationPlot\static\scripts\renderGraph.js
+ * @LastEditTime: 2021-06-11 19:33:15
+ * @FilePath: \relation-graph\static\scripts\renderGraph.js
  * @AuthorMail: kotori@cbdd.me
  */
 
@@ -191,7 +191,7 @@ function render(data, focus = "level") {
         layout: "force",
         draggable: true,
         //   gravity: 0.01,
-        center: ["590", "300"],
+        center: ["450", "300"],
         //   legendHoverLink: true,
         //   circular: {
         //     rotateLabel: true,
