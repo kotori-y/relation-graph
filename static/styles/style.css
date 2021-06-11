@@ -24,7 +24,7 @@ body {
   /* width: 100% */
 }
 .switch-button:before {
-  content: "Degree";
+  content: "Level";
   position: absolute;
   top: 0;
   bottom: 0;

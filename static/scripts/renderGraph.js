@@ -3,13 +3,16 @@
  * @Author: Kotori Y
  * @Date: 2021-06-11 09:39:25
  * @LastEditors: Kotori Y
- * @LastEditTime: 2021-06-11 20:23:45
+ * @LastEditTime: 2021-06-11 20:51:10
  * @FilePath: \relation-graph\static\scripts\renderGraph.js
  * @AuthorMail: kotori@cbdd.me
  */
 
-
 function genGraph(data, focus = "actions") {
+  // String.prototype.capitalize = function () {
+  //   return this.charAt(0).toUpperCase() + this.slice(1);
+  // };
+
   const lineColorKey = focus === "actions" ? "level" : "actions";
   let graph = {
     nodes: [],
@@ -17,24 +20,24 @@ function genGraph(data, focus = "actions") {
     categories: [],
   };
 
-    const secondaryNodes = {
-      actions: new Map([
-        ["absorption", "#B99095"],
-        ["distribution", "#74BDCB"],
-        ["metabolism", "#FFA384"],
-        ["excretion", "#EFE7BC"],
-        ["synergistic effect", "#3D5B59"],
-        ["antagonistic effect", "#B5E5CF"],
-        ["others", "#FCB5AC"],
-        ["unknown", "#E7D4C0"],
-      ]),
-      level: new Map([
-        ["Major", "#f9646c"],
-        ["Moderate", "#f9a764"],
-        ["Minor", "#f964b7"],
-        ["Unknown", "#b6b2b2"],
-      ]),
-    };
+  const secondaryNodes = {
+    actions: new Map([
+      ["absorption", "#B99095"],
+      ["distribution", "#74BDCB"],
+      ["metabolism", "#FFA384"],
+      ["excretion", "#EFE7BC"],
+      ["synergistic effect", "#3D5B59"],
+      ["antagonistic effect", "#B5E5CF"],
+      ["others", "#FCB5AC"],
+      ["unknown", "#E7D4C0"],
+    ]),
+    level: new Map([
+      ["Major", "#f9646c"],
+      ["Moderate", "#f9a764"],
+      ["Minor", "#f964b7"],
+      ["Unknown", "#b6b2b2"],
+    ]),
+  };
 
   // added canetr node (i.g. query drug)
   graph["nodes"].push({
@@ -52,6 +55,8 @@ function genGraph(data, focus = "actions") {
   const cateCount = new Map();
   for (const interaction of data.interactions) {
     let cate = interaction[focus];
+    const words = interaction[lineColorKey][0];
+
     cate = typeof cate === "string" ? cate : cate[0];
     cateCount.set(cate, (cateCount.get(cate) | 0) + 1);
 
@@ -68,18 +73,23 @@ function genGraph(data, focus = "actions") {
         shadowBlur: 3,
       },
       tooltip: {
-        formatter: `{b} ${interaction.name}`,
+        formatter: `${lineColorKey.toUpperCase()}: ${words} <br \> ${
+          data.info.Name
+        } < - > <strong>${interaction.name}</strong>`,
+        backgroundColor: secondaryNodes[lineColorKey].get(words),
+        textStyle: {
+          color: "white",
+        },
       },
     });
 
-    const words = interaction[lineColorKey][0];
     graph.links.push({
       source: cate,
       target: interaction.id,
       tooltip: {
         formatter: `${lineColorKey.toUpperCase()}: ${words} <br \> ${
           data.info.Name
-        } < - > ${interaction.name}`,
+        } < - > <strong>${interaction.name}</strong>`,
         backgroundColor: secondaryNodes[lineColorKey].get(words),
         textStyle: {
           color: "white",
@@ -121,6 +131,13 @@ function genGraph(data, focus = "actions") {
           shadowColor: "rgba(0, 0, 0, 0.5)",
           shadowBlur: 5,
           color: color,
+        },
+        tooltip: {
+          formatter: `${node}&nbsp;&nbsp;&nbsp;&nbsp;<strong>{c}</strong>`,
+          backgroundColor: secondaryNodes[focus].get(node),
+          textStyle: {
+            color: "white",
+          },
         },
       });
     }
@@ -174,12 +191,12 @@ function render(data, focus = "level") {
           fontFamily: "Fira Code",
         },
         selected: {
-            // 选中'系列1'
-            'Unknown': false,
-            'unknown': false,
-            // 不选中'系列2'
-            // '系列2': false
-        }
+          // 选中'系列1'
+          Unknown: false,
+          unknown: false,
+          // 不选中'系列2'
+          // '系列2': false
+        },
       },
     ],
     // animationDurationUpdate: 1,
