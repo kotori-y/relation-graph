@@ -3,7 +3,7 @@
  * @Author: Kotori Y
  * @Date: 2021-06-11 09:39:25
  * @LastEditors: Kotori Y
- * @LastEditTime: 2021-06-11 19:33:15
+ * @LastEditTime: 2021-06-11 20:23:45
  * @FilePath: \relation-graph\static\scripts\renderGraph.js
  * @AuthorMail: kotori@cbdd.me
  */
@@ -208,9 +208,6 @@ function render(data, focus = "level") {
           focus: "adjacency",
           lineStyle: {
             width: 10,
-          },
-          label: {
-            color: "red",
           },
         },
         lineStyle: {
