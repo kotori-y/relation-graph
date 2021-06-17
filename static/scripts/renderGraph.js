@@ -3,7 +3,7 @@
  * @Author: Kotori Y
  * @Date: 2021-06-11 09:39:25
  * @LastEditors: Kotori Y
- * @LastEditTime: 2021-06-17 16:28:03
+ * @LastEditTime: 2021-06-17 19:46:47
  * @FilePath: \relation-graph\static\scripts\renderGraph.js
  * @AuthorMail: kotori@cbdd.me
  */
@@ -43,7 +43,7 @@ function genGraph(data, focus = "actions") {
   graph["nodes"].push({
     id: data.info.id,
     name: data.info.Name,
-    symbol: 'image:///static/icon/drug_blue.svg',
+    symbol: "image:///static/icon/drug_blue.svg",
     symbolSize: 40,
     x: 400,
     y: 200,
@@ -74,7 +74,7 @@ function genGraph(data, focus = "actions") {
         shadowBlur: 3,
       },
       tooltip: {
-        borderColor: "none",
+        borderColor: secondaryNodes[lineColorKey].get(words),
         formatter: `${lineColorKey.toUpperCase()}: ${words} <br \> ${
           data.info.Name
         } <i class="fad fa-repeat"></i> <strong>${interaction.name}</strong>`,
@@ -159,7 +159,7 @@ function render(data, focus = "level") {
 
   graph.nodes.forEach(function (node) {
     node.label = {
-      show: false,
+      show: node.value,
     };
   });
 
