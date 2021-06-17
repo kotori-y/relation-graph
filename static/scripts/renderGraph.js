@@ -3,7 +3,7 @@
  * @Author: Kotori Y
  * @Date: 2021-06-11 09:39:25
  * @LastEditors: Kotori Y
- * @LastEditTime: 2021-06-17 20:33:47
+ * @LastEditTime: 2021-06-17 20:39:04
  * @FilePath: \relation-graph\static\scripts\renderGraph.js
  * @AuthorMail: kotori@cbdd.me
  */
@@ -57,6 +57,7 @@ function genGraph(data, focus = "actions") {
   for (const interaction of data.interactions) {
     let cate = interaction[focus];
     const words = interaction[lineColorKey][0];
+    const color_ = secondaryNodes[lineColorKey].get(words)
 
     cate = typeof cate === "string" ? cate : cate[0];
     cateCount.set(cate, (cateCount.get(cate) | 0) + 1);
@@ -74,11 +75,11 @@ function genGraph(data, focus = "actions") {
         shadowBlur: 3,
       },
       tooltip: {
-        borderColor: secondaryNodes[lineColorKey].get(words),
+        borderColor: color_,
         formatter: `${lineColorKey.toUpperCase()}: ${words} <br \> ${
           data.info.Name
         } <i class="fad fa-repeat"></i> <strong>${interaction.name}</strong>`,
-        backgroundColor: secondaryNodes[lineColorKey].get(words),
+        backgroundColor: color_,
         textStyle: {
           color: "white",
         },
@@ -92,13 +93,13 @@ function genGraph(data, focus = "actions") {
         formatter: `${lineColorKey.toUpperCase()}: ${words} <br \> ${
           data.info.Name
         } <i class="fad fa-repeat"></i> <strong>${interaction.name}</strong>`,
-        backgroundColor: secondaryNodes[lineColorKey].get(words),
+        backgroundColor: color_,
         textStyle: {
           color: "white",
         },
       },
       lineStyle: {
-        color: secondaryNodes[lineColorKey].get(words),
+        color: color_,
         width: 1.5,
       },
     });
@@ -130,7 +131,7 @@ function genGraph(data, focus = "actions") {
         itemStyle: {
           borderColor: "white",
           borderWidth: 5,
-          shadowColor: "rgba(0, 0, 0, 0.5)",
+          shadowColor: "rgba(0, 0, 0, 0.5)", 
           shadowBlur: 5,
           color: color,
         },
@@ -141,6 +142,12 @@ function genGraph(data, focus = "actions") {
             color: "white",
           },
         },
+        label: {
+          show: true,
+          fontSize: 14,
+          color: color,
+          fontFamily: "Fira Code",
+        }
       });
     }
   }
