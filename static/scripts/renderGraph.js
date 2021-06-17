@@ -73,6 +73,7 @@ function genGraph(data, focus = "actions") {
         shadowBlur: 3,
       },
       tooltip: {
+        borderColor: "none",
         formatter: `${lineColorKey.toUpperCase()}: ${words} <br \> ${
           data.info.Name
         } < - > <strong>${interaction.name}</strong>`,
@@ -148,7 +149,7 @@ function genGraph(data, focus = "actions") {
 
 function render(data, focus = "level") {
   const graph = genGraph(data, focus);
-  console.log(graph);
+  // console.log(graph);
 
   var chartDom = document.getElementById("main");
   var myChart = echarts.init(chartDom);
