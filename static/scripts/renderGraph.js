@@ -3,7 +3,7 @@
  * @Author: Kotori Y
  * @Date: 2021-06-11 09:39:25
  * @LastEditors: Kotori Y
- * @LastEditTime: 2021-06-17 09:08:18
+ * @LastEditTime: 2021-06-17 09:33:26
  * @FilePath: \relation-graph\static\scripts\renderGraph.js
  * @AuthorMail: kotori@cbdd.me
  */
@@ -76,7 +76,7 @@ function genGraph(data, focus = "actions") {
         borderColor: "none",
         formatter: `${lineColorKey.toUpperCase()}: ${words} <br \> ${
           data.info.Name
-        } <i class="fas fa-arrows-alt-h"></i> <strong>${interaction.name}</strong>`,
+        } <i class="fad fa-repeat"></i> <strong>${interaction.name}</strong>`,
         backgroundColor: secondaryNodes[lineColorKey].get(words),
         textStyle: {
           color: "white",
@@ -90,7 +90,7 @@ function genGraph(data, focus = "actions") {
       tooltip: {
         formatter: `${lineColorKey.toUpperCase()}: ${words} <br \> ${
           data.info.Name
-        } <i class="fas fa-arrows-alt-h"></i> <strong>${interaction.name}</strong>`,
+        } <i class="fad fa-repeat"></i> <strong>${interaction.name}</strong>`,
         backgroundColor: secondaryNodes[lineColorKey].get(words),
         textStyle: {
           color: "white",
