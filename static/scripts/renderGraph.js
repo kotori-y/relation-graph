@@ -3,7 +3,7 @@
  * @Author: Kotori Y
  * @Date: 2021-06-11 09:39:25
  * @LastEditors: Kotori Y
- * @LastEditTime: 2021-06-17 19:46:47
+ * @LastEditTime: 2021-06-17 20:33:47
  * @FilePath: \relation-graph\static\scripts\renderGraph.js
  * @AuthorMail: kotori@cbdd.me
  */
@@ -113,13 +113,13 @@ function genGraph(data, focus = "actions") {
         itemStyle: {
           shadowColor: "rgba(0, 0, 0, 0.5)",
           shadowBlur: 10,
-          color: secondaryNodes[focus].get(node),
+          color: color,
         },
       });
       graph.links.push({
         source: data.info.id,
         target: node,
-        lineStyle: { color: secondaryNodes[focus].get(node), width: 3 },
+        lineStyle: { color: color, width: 3 },
         value: num,
       });
       graph.nodes.push({
@@ -136,7 +136,7 @@ function genGraph(data, focus = "actions") {
         },
         tooltip: {
           formatter: `${node}&nbsp;&nbsp;&nbsp;&nbsp;<strong>{c}</strong>`,
-          backgroundColor: secondaryNodes[focus].get(node),
+          backgroundColor: color,
           textStyle: {
             color: "white",
           },
@@ -157,11 +157,11 @@ function render(data, focus = "level") {
   var option;
   myChart.hideLoading();
 
-  graph.nodes.forEach(function (node) {
-    node.label = {
-      show: node.value,
-    };
-  });
+//   graph.nodes.forEach(function (node) {
+//     node.label = {
+//       show: node.value,
+//     };
+//   });
 
   option = {
     title: {
