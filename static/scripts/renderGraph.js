@@ -3,7 +3,7 @@
  * @Author: Kotori Y
  * @Date: 2021-06-11 09:39:25
  * @LastEditors: Kotori Y
- * @LastEditTime: 2021-06-18 09:29:07
+ * @LastEditTime: 2021-06-18 09:35:32
  * @FilePath: \relation-graph\static\scripts\renderGraph.js
  * @AuthorMail: kotori@cbdd.me
  */
@@ -13,19 +13,19 @@ function genGraphAndPiData(data, focus = "actions") {
 
   const secondaryNodes = {
     actions: new Map([
-      ["absorption", "#B99095"],
-      ["distribution", "#74BDCB"],
-      ["metabolism", "#FFA384"],
-      ["excretion", "#EFE7BC"],
-      ["synergistic effect", "#3D5B59"],
-      ["antagonistic effect", "#B5E5CF"],
-      ["others", "#FCB5AC"],
-      ["unknown", "#E7D4C0"],
+      ["absorption", "#579572"],
+      ["distribution", "#c45a65"],
+      ["metabolism", "#1491a8"],
+      ["excretion", "#8a988e"],
+      ["synergistic effect", "#cf7543"],
+      ["antagonistic effect", "#61649f"],
+      ["others", "#f9d27d"],
+      ["unknown", "#b5aa90"],
     ]),
     level: new Map([
-      ["Major", "#f9646c"],
-      ["Moderate", "#f9a764"],
-      ["Minor", "#f964b7"],
+      ["Major", "#a8456b"],
+      ["Moderate", "#ddc871"],
+      ["Minor", "#83a78d"],
       ["Unknown", "#b6b2b2"],
     ]),
   };
