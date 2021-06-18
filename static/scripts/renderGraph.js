@@ -199,7 +199,7 @@ function render(data, focus = "level") {
     },
     tooltip: {},
     backgroundColor: "#f6f6f6",
-    legend: [
+    legend: 
       {
         data: graph.categories.map(function (a) {
           return a.name;
@@ -222,13 +222,15 @@ function render(data, focus = "level") {
           // 不选中'系列2'
           // '系列2': false
         },
+        id: ["left", "right"]
       },
-    ],
+    
     // animationDurationUpdate: 1,
     // animationEasingUpdate: "quinticInOut",
     series: [
       {
         name: "Action",
+        id: "left",
         type: "graph",
         layout: "force",
         draggable: true,
@@ -273,9 +275,11 @@ function render(data, focus = "level") {
       {
         type: "sunburst",
         link: false,
+        id: "right",
         data: piData,
         label: {
           fontFamily: "Fira Code",
+          overflow: "break",
         },
         radius: [0, "95%"],
         center: ["78%", "50%"],
@@ -294,7 +298,8 @@ function render(data, focus = "level") {
             label: {
               rotate: "radial",
               minAngle: 10,
-              fontSize: 10,
+              fontSize: 14,
+              width: 110
             },
           },
           {
@@ -304,8 +309,9 @@ function render(data, focus = "level") {
               position: "outside",
               padding: 3,
               silent: false,
-              minAngle: 1.5,
-              fontSize: 9,
+              minAngle: 5,
+              fontSize: 14,
+              width: 110,
             },
             itemStyle: {
               borderWidth: 3,
