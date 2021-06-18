@@ -3,7 +3,7 @@
  * @Author: Kotori Y
  * @Date: 2021-06-11 09:39:25
  * @LastEditors: Kotori Y
- * @LastEditTime: 2021-06-18 09:35:32
+ * @LastEditTime: 2021-06-18 09:43:42
  * @FilePath: \relation-graph\static\scripts\renderGraph.js
  * @AuthorMail: kotori@cbdd.me
  */
@@ -55,7 +55,7 @@ function genGraphAndPiData(data, focus = "actions") {
     id: data.info.id,
     name: data.info.Name,
     symbol: "image:///static/icon/drug_blue.svg",
-    symbolSize: 40,
+    symbolSize: 60,
     x: 400,
     y: 200,
     tooltip: {
@@ -81,9 +81,9 @@ function genGraphAndPiData(data, focus = "actions") {
       itemStyle: {
         borderColor: "white",
         borderWidth: 1,
-        color: "#3c5db4",
+        color: secondaryNodes[focus].get(cate),
         shadowColor: "rgba(0, 0, 0, 0.5)",
-        shadowBlur: 3,
+        shadowBlur: 2,
       },
       tooltip: {
         borderColor: color_,
@@ -110,7 +110,7 @@ function genGraphAndPiData(data, focus = "actions") {
         },
       },
       lineStyle: {
-        color: color_,
+        color: secondaryNodes[focus].get(cate),
         width: 1.5,
       },
     });
@@ -142,7 +142,7 @@ function genGraphAndPiData(data, focus = "actions") {
       graph.nodes.push({
         name: node,
         value: num,
-        symbolSize: 30,
+        symbolSize: 40,
         category: node,
         itemStyle: {
           borderColor: "white",
@@ -160,7 +160,7 @@ function genGraphAndPiData(data, focus = "actions") {
         },
         label: {
           show: true,
-          fontSize: 14,
+          fontSize: 20,
           color: color,
           fontFamily: "Fira Code",
         },
@@ -173,7 +173,7 @@ function genGraphAndPiData(data, focus = "actions") {
 
 function render(data, focus = "level") {
   const [graph, piData] = genGraphAndPiData(data, focus);
-  console.log(graph, piData);
+  // console.log(graph, piData);
 
   var chartDom = document.getElementById("main");
   var myChart = echarts.init(chartDom);
@@ -193,7 +193,7 @@ function render(data, focus = "level") {
       top: "top",
       left: "left",
       textStyle: {
-        fontSize: 24,
+        fontSize: 18,
         fontFamily: "Fira Code",
       },
     },
@@ -243,7 +243,7 @@ function render(data, focus = "level") {
         categories: graph.categories,
         roam: true,
         label: {
-          position: "right",
+          position: ['0%','150%'], 
           formatter: "{b}",
         },
         emphasis: {
@@ -275,10 +275,10 @@ function render(data, focus = "level") {
         link: false,
         data: piData,
         label: {
-          fontFamily: "Fira Code"
+          fontFamily: "Fira Code",
         },
         radius: [0, "95%"],
-        center: ["75%", "50%"],
+        center: ["78%", "50%"],
         sort: null,
         emphasis: {
           focus: "ancestor",
@@ -287,23 +287,25 @@ function render(data, focus = "level") {
           {},
           {
             r0: "15%",
-            r: "70%",
+            r: "60%",
             itemStyle: {
               borderWidth: 2,
             },
             label: {
               rotate: "radial",
               minAngle: 10,
+              fontSize: 10,
             },
           },
           {
-            r0: "70%",
-            r: "72%",
+            r0: "60%",
+            r: "62%",
             label: {
               position: "outside",
               padding: 3,
               silent: false,
               minAngle: 1.5,
+              fontSize: 9,
             },
             itemStyle: {
               borderWidth: 3,
