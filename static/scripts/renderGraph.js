@@ -3,22 +3,13 @@
  * @Author: Kotori Y
  * @Date: 2021-06-11 09:39:25
  * @LastEditors: Kotori Y
- * @LastEditTime: 2021-06-17 20:39:04
+ * @LastEditTime: 2021-06-18 09:29:07
  * @FilePath: \relation-graph\static\scripts\renderGraph.js
  * @AuthorMail: kotori@cbdd.me
  */
 
-function genGraph(data, focus = "actions") {
-  // String.prototype.capitalize = function () {
-  //   return this.charAt(0).toUpperCase() + this.slice(1);
-  // };
-
+function genGraphAndPiData(data, focus = "actions") {
   const lineColorKey = focus === "actions" ? "level" : "actions";
-  let graph = {
-    nodes: [],
-    links: [],
-    categories: [],
-  };
 
   const secondaryNodes = {
     actions: new Map([
@@ -39,6 +30,26 @@ function genGraph(data, focus = "actions") {
     ]),
   };
 
+  let graph = {
+    nodes: [],
+    links: [],
+    categories: [],
+  };
+
+  // init piData
+  let piData = [];
+  secondaryNodes[focus].forEach((color, name) => {
+    const children = [];
+    secondaryNodes[lineColorKey].forEach((color, name) => {
+      children.push({ name: name, value: 0, itemStyle: { color: color } });
+    });
+    piData.push({
+      name: name,
+      itemStyle: { color: color },
+      children: children,
+    });
+  });
+
   // added canetr node (i.g. query drug)
   graph["nodes"].push({
     id: data.info.id,
@@ -57,7 +68,7 @@ function genGraph(data, focus = "actions") {
   for (const interaction of data.interactions) {
     let cate = interaction[focus];
     const words = interaction[lineColorKey][0];
-    const color_ = secondaryNodes[lineColorKey].get(words)
+    const color_ = secondaryNodes[lineColorKey].get(words);
 
     cate = typeof cate === "string" ? cate : cate[0];
     cateCount.set(cate, (cateCount.get(cate) | 0) + 1);
@@ -103,9 +114,14 @@ function genGraph(data, focus = "actions") {
         width: 1.5,
       },
     });
+
+    // pi data
+    piData
+      .find((elem) => elem.name === cate)
+      .children.find((elem) => elem.name === words).value += 1;
   }
 
-  // add secondary nodes
+  // add secondary nodes and complete pi data
   for (const [node, color] of secondaryNodes[focus].entries()) {
     const num = cateCount.get(node, false);
     if (num) {
@@ -131,7 +147,7 @@ function genGraph(data, focus = "actions") {
         itemStyle: {
           borderColor: "white",
           borderWidth: 5,
-          shadowColor: "rgba(0, 0, 0, 0.5)", 
+          shadowColor: "rgba(0, 0, 0, 0.5)",
           shadowBlur: 5,
           color: color,
         },
@@ -147,28 +163,28 @@ function genGraph(data, focus = "actions") {
           fontSize: 14,
           color: color,
           fontFamily: "Fira Code",
-        }
+        },
       });
     }
   }
 
-  return graph;
+  return [graph, piData];
 }
 
 function render(data, focus = "level") {
-  const graph = genGraph(data, focus);
-  // console.log(graph);
+  const [graph, piData] = genGraphAndPiData(data, focus);
+  console.log(graph, piData);
 
   var chartDom = document.getElementById("main");
   var myChart = echarts.init(chartDom);
   var option;
   myChart.hideLoading();
 
-//   graph.nodes.forEach(function (node) {
-//     node.label = {
-//       show: node.value,
-//     };
-//   });
+  //   graph.nodes.forEach(function (node) {
+  //     node.label = {
+  //       show: node.value,
+  //     };
+  //   });
 
   option = {
     title: {
@@ -217,7 +233,7 @@ function render(data, focus = "level") {
         layout: "force",
         draggable: true,
         //   gravity: 0.01,
-        center: ["450", "300"],
+        center: ["900", "300"],
         //   legendHoverLink: true,
         //   circular: {
         //     rotateLabel: true,
@@ -253,6 +269,47 @@ function render(data, focus = "level") {
           curveness: 0.3,
           width: 3,
         },
+      },
+      {
+        type: "sunburst",
+        link: false,
+        data: piData,
+        label: {
+          fontFamily: "Fira Code"
+        },
+        radius: [0, "95%"],
+        center: ["75%", "50%"],
+        sort: null,
+        emphasis: {
+          focus: "ancestor",
+        },
+        levels: [
+          {},
+          {
+            r0: "15%",
+            r: "70%",
+            itemStyle: {
+              borderWidth: 2,
+            },
+            label: {
+              rotate: "radial",
+              minAngle: 10,
+            },
+          },
+          {
+            r0: "70%",
+            r: "72%",
+            label: {
+              position: "outside",
+              padding: 3,
+              silent: false,
+              minAngle: 1.5,
+            },
+            itemStyle: {
+              borderWidth: 3,
+            },
+          },
+        ],
       },
     ],
   };
