@@ -3,7 +3,7 @@
  * @Author: Kotori Y
  * @Date: 2021-06-11 09:39:25
  * @LastEditors: Kotori Y
- * @LastEditTime: 2021-06-18 11:33:08
+ * @LastEditTime: 2021-06-18 13:41:34
  * @FilePath: \relation-graph\static\scripts\renderGraph.js
  * @AuthorMail: kotori@cbdd.me
  */
@@ -198,6 +198,13 @@ function render(data, focus = "level") {
       },
     },
     tooltip: {},
+    toolbox: {
+        right: "1%",
+        // top: 40,
+        feature: {
+            saveAsImage: {title: "Save"}
+        }
+    },
     backgroundColor: "#f6f6f6",
     legend: 
       {

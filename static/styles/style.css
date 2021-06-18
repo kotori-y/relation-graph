@@ -17,8 +17,8 @@ body {
   z-index: 10;
   display: inline-block;
   position: absolute;
-  top: 15px;
-  right: 10px;
+  top: 5px;
+  right: 45px;
   height: 26px;
   font-family: "Fira Code";
   /* width: 100% */
