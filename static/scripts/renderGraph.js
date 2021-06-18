@@ -3,7 +3,7 @@
  * @Author: Kotori Y
  * @Date: 2021-06-11 09:39:25
  * @LastEditors: Kotori Y
- * @LastEditTime: 2021-06-18 09:43:42
+ * @LastEditTime: 2021-06-18 11:33:08
  * @FilePath: \relation-graph\static\scripts\renderGraph.js
  * @AuthorMail: kotori@cbdd.me
  */
@@ -217,8 +217,8 @@ function render(data, focus = "level") {
         },
         selected: {
           // 选中'系列1'
-          Unknown: false,
-          unknown: false,
+          Unknown: graph.categories.length === 1,
+          unknown: graph.categories.length === 1,
           // 不选中'系列2'
           // '系列2': false
         },
