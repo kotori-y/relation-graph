@@ -104,7 +104,7 @@ function genGraphAndPiData(data, focus = "actions") {
         formatter: `${lineColorKey.toUpperCase()}: ${words} <br \> ${
           data.info.Name
         } <i class="fad fa-repeat"></i> <strong>${interaction.name}</strong>`,
-        backgroundColor: color_,
+        backgroundColor: secondaryNodes[focus].get(cate),
         textStyle: {
           color: "white",
         },
