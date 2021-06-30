@@ -3,7 +3,7 @@
  * @Author: Kotori Y
  * @Date: 2021-06-11 09:39:25
  * @LastEditors: Kotori Y
- * @LastEditTime: 2021-06-18 13:41:34
+ * @LastEditTime: 2021-06-30 10:38:15
  * @FilePath: \relation-graph\static\scripts\renderGraph.js
  * @AuthorMail: kotori@cbdd.me
  */
@@ -171,9 +171,14 @@ function genGraphAndPiData(data, focus = "actions") {
   return [graph, piData];
 }
 
+function obtainRepulsion(nodeNum) {
+  return (35 / nodeNum) * 180;
+}
+
 function render(data, focus = "level") {
   const [graph, piData] = genGraphAndPiData(data, focus);
   // console.log(graph, piData);
+  // console.log(graph);
 
   var chartDom = document.getElementById("main");
   var myChart = echarts.init(chartDom);
@@ -199,39 +204,38 @@ function render(data, focus = "level") {
     },
     tooltip: {},
     toolbox: {
-        right: "1%",
-        // top: 40,
-        feature: {
-            saveAsImage: {title: "Save"}
-        }
+      right: "1%",
+      // top: 40,
+      feature: {
+        saveAsImage: { title: "Save" },
+      },
     },
     backgroundColor: "#f6f6f6",
-    legend: 
-      {
-        data: graph.categories.map(function (a) {
-          return a.name;
-        }),
-        type: "scroll",
-        // orient: "vertical",
-        // right: 1,
-        // top: "middle",
-        bottom: 0,
-        shadowColor: "rgba(0, 0, 0, 0.5)",
-        shadowBlur: 10,
-        textStyle: {
-          fontSize: 18,
-          fontFamily: "Fira Code",
-        },
-        selected: {
-          // 选中'系列1'
-          Unknown: graph.categories.length === 1,
-          unknown: graph.categories.length === 1,
-          // 不选中'系列2'
-          // '系列2': false
-        },
-        id: ["left", "right"]
+    legend: {
+      data: graph.categories.map(function (a) {
+        return a.name;
+      }),
+      type: "scroll",
+      // orient: "vertical",
+      // right: 1,
+      // top: "middle",
+      bottom: 0,
+      shadowColor: "rgba(0, 0, 0, 0.5)",
+      shadowBlur: 10,
+      textStyle: {
+        fontSize: 18,
+        fontFamily: "Fira Code",
       },
-    
+      selected: {
+        // 选中'系列1'
+        Unknown: graph.categories.length === 1,
+        unknown: graph.categories.length === 1,
+        // 不选中'系列2'
+        // '系列2': false
+      },
+      id: ["left", "right"],
+    },
+
     // animationDurationUpdate: 1,
     // animationEasingUpdate: "quinticInOut",
     series: [
@@ -252,7 +256,7 @@ function render(data, focus = "level") {
         categories: graph.categories,
         roam: true,
         label: {
-          position: ['0%','150%'], 
+          position: ["0%", "150%"],
           formatter: "{b}",
         },
         emphasis: {
@@ -268,7 +272,19 @@ function render(data, focus = "level") {
         },
         force: {
           // edgeLength : [5, 100],
-          repulsion: (30 / graph.nodes.length) * 180,
+          repulsion: (() => {
+            const totalNodeNum = graph.nodes.length;
+            const unNum = graph.nodes.filter(
+              (node) =>
+                node.category && node.category.toLowerCase() === "unknown"
+            ).length;
+            const nodeNum =
+              graph.categories.length === 1
+                ? totalNodeNum
+                : totalNodeNum - unNum;
+            return obtainRepulsion(nodeNum);
+          })(),
+
           // edgeLength: [40, 300, 200, 100, 100, 100]
           // gravity: 0.08,
           // edgeLength: 200,
@@ -306,7 +322,7 @@ function render(data, focus = "level") {
               rotate: "radial",
               minAngle: 10,
               fontSize: 14,
-              width: 110
+              width: 110,
             },
           },
           {
@@ -329,6 +345,25 @@ function render(data, focus = "level") {
     ],
   };
 
-  myChart.setOption(option);
+  myChart.on("legendselectchanged", function (params) {
+    // console.log(option, params);
+    changeRepulsion(myChart, graph, option, params);
+
+    // Add custom functionality here
+  });
+
+  function changeRepulsion(chart, graph, option, params) {
+    // console.log(graph);
+    // chart.setOption({ animation: false });
+
+    const selected = params.selected;
+    const nodeNum =
+      graph.nodes.filter((node) => selected[node.category]).length + 1;
+    // console.log(selected);
+    option.legend.selected = selected;
+    (option.series[0].force.repulsion = obtainRepulsion(nodeNum)),
+      chart.setOption(option);
+  }
+
   option && myChart.setOption(option);
 }
